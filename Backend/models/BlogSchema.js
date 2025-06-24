@@ -3,20 +3,35 @@ const mongoose = require('mongoose');
 const blogPostSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true
+    required: true,
+    trim:true
   },
-
+  subTitle: {
+    type: String,
+    required: true,
+    trim:true
+  },
   content: {
     type: String,
     required: true
   },
+  Category: {
+    type: String,
+    required: true,
+    trim: true,
+    
 
-  author: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
   },
-
+  image:{
+    type:String,
+    required:true
+  },
+  isPublished:{
+    type:Boolean,
+    required: true,
+    default: false
+  },
+  
   likes: {
     type: Number,
     default: 0

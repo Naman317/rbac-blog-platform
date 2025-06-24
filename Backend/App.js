@@ -11,6 +11,7 @@ app.use(express.json());
 
 
 app.use('/api/auth', require('./routes/AuthRoutes'));
+app.use('/api/blog', require('./routes/BlogRoutes'));
 
 connectDB().then(() => {
   const PORT = process.env.PORT || 5000;
