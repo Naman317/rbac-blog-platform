@@ -1,11 +1,11 @@
 const Blog=require("../models/BlogSchema");
-const User = require('../models/User');
+const User = require('../models/UserSchema');
 
 
 //============For User
 exports.getAllBlogs = async (req, res) => {
     try {
-      const blogs = await BlogPost.find().sort({ createdAt: -1 });
+      const blogs = await Blog.find().sort({ createdAt: -1 });
       res.json(blogs);
     } catch (err) {
       res.status(500).json({ message: err.message });
@@ -14,7 +14,7 @@ exports.getAllBlogs = async (req, res) => {
   
   exports.getBlog = async (req, res) => {
     try {
-      const blog = await BlogPost.findById(req.params.id);
+      const blog = await Blog.findById(req.params.id);
       if (!blog) return res.status(404).json({ message: 'Blog not found' });
       res.json(blog);
     } catch (err) {
@@ -24,7 +24,7 @@ exports.getAllBlogs = async (req, res) => {
   
   exports.likePost = async (req, res) => {
     try {
-      const blog = await BlogPost.findById(req.params.id);
+      const blog = await Blog.findById(req.params.id);
       const userId = req.user._id;
   
       if (!blog) return res.status(404).json({ message: 'Blog not found' });
@@ -72,7 +72,7 @@ exports.getAllBlogs = async (req, res) => {
     try {
       const { title, subTitle, content, category, image, isPublished } = req.body;
   
-      const blog = new BlogPost({
+      const blog = new Blog({
         title,
         subTitle,
         content,
@@ -91,7 +91,7 @@ exports.getAllBlogs = async (req, res) => {
   //======Update
   exports.updatePost = async (req, res) => {
     try {
-      const blog = await BlogPost.findByIdAndUpdate(req.params.id, req.body, { new: true });
+      const blog = await Blog.findByIdAndUpdate(req.params.id, req.body, { new: true });
       if (!blog) return res.status(404).json({ message: 'Blog not found' });
       res.json(blog);
     } catch (err) {
@@ -102,7 +102,7 @@ exports.getAllBlogs = async (req, res) => {
   //=======Delete
   exports.deletePost = async (req, res) => {
     try {
-      await BlogPost.findByIdAndDelete(req.params.id);
+      await Blog.findByIdAndDelete(req.params.id);
       res.json({ message: 'Deleted successfully' });
     } catch (err) {
       res.status(500).json({ message: err.message });
