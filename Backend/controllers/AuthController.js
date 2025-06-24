@@ -2,7 +2,7 @@ const User = require('../models/UserSchema');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_KEY = process.env.JWT_KEY;
 
 //==========================Register====================================//
 exports.registerUser = async (req, res) => {
@@ -41,9 +41,7 @@ exports.loginUser = async (req, res) => {
     if (!isMatch) return res.status(401).json({ message: 'Invalid credentials' });
 
     const token = jwt.sign(
-      { id: user._id, role: user.role },
-      JWT_SECRET,
-      { expiresIn: '1d' }
+      { id: user._id, role: user.role }, JWT_SECRET, { expiresIn: '1d' }
     );
 
     res.status(200).json({
