@@ -20,7 +20,7 @@ exports.getAllBlogs = async (req, res) => {
       if (!blog) return res.status(404).json({ message: "Didn't find the blog" });
       res.json(blog);
     } catch (err) {
-      res.status(500).json({ message: err.message });
+      res.status(500).json({ message:"Error fetching" });
     }
   };  
 //---Like_Unlike
@@ -33,7 +33,9 @@ exports.getAllBlogs = async (req, res) => {
         return res.status(404).json({ message: 'Not found' });
       }
   
-      if (blog.likedBy.includes(userId)) {
+      const hasLiked = blog.likedBy.includes(userId);
+
+      if (hasLiked) {
         blog.likedBy.pull(userId);
         blog.likes -= 1;
       } else {
@@ -59,7 +61,9 @@ exports.getAllBlogs = async (req, res) => {
         return res.status(404).json({ message: 'Not found the user' });
       }
   
-      if (user.bookmark.includes(Id)) {
+      const isBookmarked = user.bookmark.includes(Id);
+
+      if (isBookmarked) {
         user.bookmark.pull(Id);
       } else {
         user.bookmark.push(Id);
@@ -115,9 +119,7 @@ exports.getAllBlogs = async (req, res) => {
 //===Get_Top_Blogs
   exports.getTopLiked= async (req, res) => {
     try {
-      const blogs = await Blog.find()
-        .sort({ likes: -1 })
-        .limit(5);
+      const blogs = await Blog.find().sort({ likes: -1 }).limit(5);
       res.json(blogs);
     } catch (err) {
       res.status(500).json({ message: err.message });
