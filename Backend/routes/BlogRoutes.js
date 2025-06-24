@@ -11,6 +11,8 @@ router.post('/bookmark/:id', auth, blogController.bookmarkPost);
 
 
 router.post('/', auth, role('admin'), blogController.createPost);
+router.put('/:id', auth, role('admin'), blogController.updatePost);
+router.delete('/:id', auth, role('admin'), blogController.deletePost);
 module.exports = router;
 
 
