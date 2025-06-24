@@ -15,7 +15,7 @@ const blogPostSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  Category: {
+  category: {
     type: String,
     required: true,
     trim: true,
@@ -39,4 +39,4 @@ const blogPostSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
-module.exports = mongoose.model('BlogPost', blogPostSchema);
+module.exports = mongoose.model('Blog', blogPostSchema);
