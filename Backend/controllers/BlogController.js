@@ -108,3 +108,14 @@ exports.getAllBlogs = async (req, res) => {
       res.status(500).json({ message: err.message });
     }
   };
+
+  exports.getTopLikedBlogs = async (req, res) => {
+    try {
+      const blogs = await Blog.find()
+        .sort({ likes: -1 })
+        .limit(5);
+      res.json(blogs);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  };
