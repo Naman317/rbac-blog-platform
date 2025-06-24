@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
     { type: mongoose.Schema.Types.ObjectId, ref: 'BlogPost' }
   ],
 
-  bookmarkedPosts: [
+  bookmark: [
     { type: mongoose.Schema.Types.ObjectId, ref: 'BlogPost' }
   ]
 }, { timestamps: true });// This Timestamp add created at and updated at automaatically managed by Moongoose

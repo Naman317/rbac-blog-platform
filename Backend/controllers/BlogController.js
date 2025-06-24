@@ -3,31 +3,35 @@ const User = require('../models/UserSchema');
 
 
 //============For User
+//----all blog
 exports.getAllBlogs = async (req, res) => {
     try {
       const blogs = await Blog.find().sort({ createdAt: -1 });
       res.json(blogs);
     } catch (err) {
-      res.status(500).json({ message: err.message });
+      res.status(500).json({ message:"Couldn't fetch blogs. Try again later." });
     }
   };
   
+  //-----get_one_blog_by_id------
   exports.getBlog = async (req, res) => {
     try {
       const blog = await Blog.findById(req.params.id);
-      if (!blog) return res.status(404).json({ message: 'Blog not found' });
+      if (!blog) return res.status(404).json({ message: "Didn't find the blog" });
       res.json(blog);
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
   };  
-  
+//---Like_Unlike
   exports.likePost = async (req, res) => {
     try {
       const blog = await Blog.findById(req.params.id);
       const userId = req.user._id;
   
-      if (!blog) return res.status(404).json({ message: 'Blog not found' });
+      if (!blog){
+        return res.status(404).json({ message: 'Not found' });
+      }
   
       if (blog.likedBy.includes(userId)) {
         blog.likedBy.pull(userId);
@@ -43,23 +47,26 @@ exports.getAllBlogs = async (req, res) => {
       res.status(500).json({ message: err.message });
     }
   };
-  
+
+  //-----Get_Bookmark_blog
 
   exports.bookmarkPost = async (req, res) => {
     try {
       const user = await User.findById(req.user._id);
-      const blogId = req.params.id;
+      const Id = req.params.id;
   
-      if (!user) return res.status(404).json({ message: 'User not found' });
+      if (!user){
+        return res.status(404).json({ message: 'Not found the user' });
+      }
   
-      if (user.bookmarkedPosts.includes(blogId)) {
-        user.bookmarkedPosts.pull(blogId);
+      if (user.bookmark.includes(Id)) {
+        user.bookmark.pull(Id);
       } else {
-        user.bookmarkedPosts.push(blogId);
+        user.bookmark.push(Id);
       }
   
       await user.save();
-      res.json({ bookmarks: user.bookmarkedPosts });
+      res.json({ bookmarks: user.bookmark });
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
@@ -68,19 +75,14 @@ exports.getAllBlogs = async (req, res) => {
   // ================For Admin============================//
 
   //======Create
-  exports.createPost = async (req, res) => {
+  exports.create = async (req, res) => {
     try {
       const { title, subTitle, content, category, image, isPublished } = req.body;
   
       const blog = new Blog({
-        title,
-        subTitle,
-        content,
-        category,
-        image,
-        isPublished
+        title,subTitle,content,category,image,isPublished
       });
-  
+
       await blog.save();
       res.status(201).json(blog);
     } catch (err) {
@@ -89,10 +91,12 @@ exports.getAllBlogs = async (req, res) => {
   };
   
   //======Update
-  exports.updatePost = async (req, res) => {
+  exports.update = async (req, res) => {
     try {
       const blog = await Blog.findByIdAndUpdate(req.params.id, req.body, { new: true });
-      if (!blog) return res.status(404).json({ message: 'Blog not found' });
+      if (!blog) {
+        return res.status(404).json({ message: 'Blog not found' });
+      }
       res.json(blog);
     } catch (err) {
       res.status(500).json({ message: err.message });
@@ -100,16 +104,16 @@ exports.getAllBlogs = async (req, res) => {
   };
   
   //=======Delete
-  exports.deletePost = async (req, res) => {
+  exports.delete = async (req, res) => {
     try {
       await Blog.findByIdAndDelete(req.params.id);
-      res.json({ message: 'Deleted successfully' });
+      res.json({ message: 'Blog successfully deleted. ' });
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
   };
-
-  exports.getTopLikedBlogs = async (req, res) => {
+//===Get_Top_Blogs
+  exports.getTopLiked= async (req, res) => {
     try {
       const blogs = await Blog.find()
         .sort({ likes: -1 })

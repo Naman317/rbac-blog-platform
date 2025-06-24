@@ -10,13 +10,12 @@ router.post('/like/:id', auth, blogController.likePost);
 router.post('/bookmark/:id', auth, blogController.bookmarkPost);
 
 
-router.post('/', auth, role('admin'), blogController.createPost);
-router.put('/:id', auth, role('admin'), blogController.updatePost);
-router.delete('/:id', auth, role('admin'), blogController.deletePost);
-router.get('/top-liked', auth, role('admin'), adminController.getTopLikedBlogs);
+router.post('/', auth, role('admin'), blogController.create);
+router.put('/:id', auth, role('admin'), blogController.update);
+router.delete('/:id', auth, role('admin'), blogController.delete);
+router.get('/top-liked', auth, role('admin'), blogController.getTopLiked);
 
 module.exports = router;
 
 
 
-module.exports = router;
