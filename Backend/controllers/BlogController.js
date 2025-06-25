@@ -51,6 +51,7 @@ exports.getAllBlogs = async (req, res) => {
   };
 
   //-----Get_Bookmark_blog
+<<<<<<< HEAD
   exports.bookmarkPost = async (req, res) => {
     try {
       const user = await User.findById(req.user._id);
@@ -99,11 +100,39 @@ exports.getBookmarks = async (req, res) => {
   
   
   
+=======
+
+  exports.bookmarkPost = async (req, res) => {
+    try {
+      const user = await User.findById(req.user._id);
+      const Id = req.params.id;
+  
+      if (!user){
+        return res.status(404).json({ message: 'Not found the user' });
+      }
+  
+      const isBookmarked = user.bookmark.includes(Id);
+
+      if (isBookmarked) {
+        user.bookmark.pull(Id);
+      } else {
+        user.bookmark.push(Id);
+      }
+  
+      await user.save();
+      res.json({ bookmarks: user.bookmark });
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  };
+
+>>>>>>> 7860b08a7565a39ba9b2c6a3d232e38e48a46423
   // ================For Admin============================//
 
   //======Create
   exports.create = async (req, res) => {
     try {
+<<<<<<< HEAD
       const { title, subTitle, content, category, isPublished } = req.body;
   
       const image = req.file ? `/uploads/${req.file.filename}` : null;
@@ -160,6 +189,34 @@ exports.getBookmarks = async (req, res) => {
   };
   
   
+=======
+      const { title, subTitle, content, category, image, isPublished } = req.body;
+  
+      const blog = new Blog({
+        title,subTitle,content,category,image,isPublished
+      });
+
+      await blog.save();
+      res.status(201).json(blog);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  };
+  
+  //======Update
+  exports.update = async (req, res) => {
+    try {
+      const blog = await Blog.findByIdAndUpdate(req.params.id, req.body, { new: true });
+      if (!blog) {
+        return res.status(404).json({ message: 'Blog not found' });
+      }
+      res.json(blog);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  };
+  
+>>>>>>> 7860b08a7565a39ba9b2c6a3d232e38e48a46423
   //=======Delete
   exports.delete = async (req, res) => {
     try {
@@ -170,6 +227,7 @@ exports.getBookmarks = async (req, res) => {
     }
   };
 //===Get_Top_Blogs
+<<<<<<< HEAD
 exports.getTopLiked = async (req, res) => {
   try {
     console.log('🔍 [ADMIN] Fetching top liked blogs');
@@ -188,3 +246,13 @@ exports.getTopLiked = async (req, res) => {
     });
   }
 };
+=======
+  exports.getTopLiked= async (req, res) => {
+    try {
+      const blogs = await Blog.find().sort({ likes: -1 }).limit(5);
+      res.json(blogs);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  };
+>>>>>>> 7860b08a7565a39ba9b2c6a3d232e38e48a46423

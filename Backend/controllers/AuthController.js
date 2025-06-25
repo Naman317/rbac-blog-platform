@@ -1,10 +1,35 @@
 const User = require('../models/UserSchema');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+<<<<<<< HEAD
 const crypto = require('crypto');
 
 const JWT_KEY = process.env.JWT_KEY;
 
+=======
+
+const JWT_KEY = process.env.JWT_KEY;
+
+//==========================Register====================================//
+exports.register = async (req, res) => {
+  try {
+    const { name, email, password, role } = req.body;
+    const Check_user = await User.findOne({ email });
+    
+    if (Check_user) {
+      return res.status(400).json({ message: 'User with that mail already exist' });
+    }
+
+    const hashPassword = await bcrypt.hash(password, 10);
+
+    const user = new User({ name, email, password: hashPassword, role: role || 'user'});
+    await user.save();
+    res.status(201).json({ message: 'User is successfully registered' });
+  } catch (err) {
+    res.status(500).json({ message: 'Error while registering user'});
+  }
+};
+>>>>>>> 7860b08a7565a39ba9b2c6a3d232e38e48a46423
 
 //============================Login========================================//
 exports.login = async (req, res) => {
@@ -35,6 +60,7 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: 'Ah ! Login error' });
   }
 };
+<<<<<<< HEAD
 
 
 //==========================Register====================================//
@@ -76,3 +102,5 @@ exports.verify = async (req, res) => {
     res.status(400).send('Invalid or expired token');
   }
 };
+=======
+>>>>>>> 7860b08a7565a39ba9b2c6a3d232e38e48a46423

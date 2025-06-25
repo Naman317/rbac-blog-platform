@@ -14,8 +14,11 @@ const authMiddleware = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, JWT_KEY);
     req.user = await User.findById(decoded.id).select('-password'); //it means excluding the password
+<<<<<<< HEAD
     console.log('Authenticated User:', req.user);
 
+=======
+>>>>>>> 7860b08a7565a39ba9b2c6a3d232e38e48a46423
     next();
   } catch (err) {
     res.status(401).json({ message: 'Invalid token' });

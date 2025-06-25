@@ -4,9 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+<<<<<<< HEAD
     "start": "node app.js",
     "dev": "nodemon app.js"
   },
+=======
+  "start": "node app.js",
+  "dev": "nodemon app.js"
+},
+>>>>>>> 7860b08a7565a39ba9b2c6a3d232e38e48a46423
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -17,8 +23,12 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
+<<<<<<< HEAD
     "mongoose": "^8.16.0",
     "multer": "^2.0.1"
+=======
+    "mongoose": "^8.16.0"
+>>>>>>> 7860b08a7565a39ba9b2c6a3d232e38e48a46423
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
