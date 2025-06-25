@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useState, useContext, useEffect } from 'react';
 import { FaRegHeart, FaHeart, FaRegBookmark, FaBookmark } from 'react-icons/fa';
 import axios from 'axios';
+import API from "../baseApi"
 import { AuthContext } from '../Auth';
 
 const BlogCard = ({ blog, removable, onRemove }) => {
@@ -19,7 +20,7 @@ const BlogCard = ({ blog, removable, onRemove }) => {
 
     const checkBookmark = async () => {
       try {
-        const res = await axios.get('/api/blog/bookmark', {
+        const res = await API.get('/blog/bookmark', {
           headers: { Authorization: `Bearer ${auth.token}` }
         });
         const bookmarkedIds = res.data.map(i => i._id);
@@ -35,7 +36,7 @@ const BlogCard = ({ blog, removable, onRemove }) => {
   const toggleLike = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`/api/blog/like/${blog._id}`, {}, {
+      await API.post(`/api/blog/like/${blog._id}`, {}, {
         headers: { Authorization: `Bearer ${auth.token}` }
       });
       setLiked(!liked);
@@ -47,7 +48,7 @@ const BlogCard = ({ blog, removable, onRemove }) => {
   const toggleBookmark = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`/api/blog/bookmark/${blog._id}`, {}, {
+      await API.post(`/blog/bookmark/${blog._id}`, {}, {
         headers: { Authorization: `Bearer ${auth.token}` }
       });
       setBookmarked(!bookmarked);

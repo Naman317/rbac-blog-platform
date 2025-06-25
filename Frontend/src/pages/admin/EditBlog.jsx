@@ -16,7 +16,7 @@ const EditBlog = () => {
   const [imageFile, setImageFile] = useState(null);
 
   useEffect(() => {
-    axios.get(`/blog/${id}`).then(res => setForm(res.data)).catch(err => console.error('Error fetching blog:', err));
+    API.get(`/blog/${id}`).then(res => setForm(res.data)).catch(err => console.error('Error fetching blog:', err));
   },[id]);
 
   const handleChange = e => {
@@ -43,7 +43,7 @@ const EditBlog = () => {
     }
 
     try {
-      await axios.put(`/blog/${id}`, formData, {
+      await API.put(`/blog/${id}`, formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'multipart/form-data',

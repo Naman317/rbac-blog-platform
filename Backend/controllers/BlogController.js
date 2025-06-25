@@ -63,9 +63,9 @@ exports.getAllBlogs = async (req, res) => {
       const isBookmarked = user.bookmark.includes(blogId);
   
       if (isBookmarked) {
-        user.bookmark.pull(blogId); // Remove bookmark
+        user.bookmark.pull(blogId); 
       } else {
-        user.bookmark.push(blogId); // Add bookmark
+        user.bookmark.push(blogId); 
       }
   
       await user.save();
@@ -85,7 +85,7 @@ exports.getBookmarks = async (req, res) => {
     if (!user) {
        return res.status(404).json({ message: 'User not found' });
       }
-      res.status(200).json(user.bookmark); // populated with blog details
+      res.status(200).json(user.bookmark); 
       // 
       } catch (err) {
         res.status(500).json({ message: 'Error fetching bookmarks', error: err.message });
@@ -122,7 +122,7 @@ exports.getBookmarks = async (req, res) => {
       await blog.save();
       res.status(201).json(blog);
     } catch (err) {
-      console.error('🔥 Error in creating blog:', err.message);
+      console.error('Error in creating blog:', err.message);
       res.status(500).json({ message: 'Server error', error: err.message });
     }
   };
@@ -142,19 +142,16 @@ exports.getBookmarks = async (req, res) => {
       blog.subTitle = subTitle;
       blog.content = content;
       blog.category = category;
-      blog.isPublished = isPublished === 'true'; // FormData sends strings
+      blog.isPublished = isPublished === 'true'; 
   
       if (req.file) {
         blog.image = `/uploads/${req.file.filename}`;
       }
   
-      // Prevent likedBy or likes from being overwritten by FormData
-      // You may also remove these from `req.body` entirely just to be safe
-  
       await blog.save();
       res.json(blog);
     } catch (err) {
-      console.error('🔥 Error updating blog:', err.message);
+      console.error('Error updating blog:', err.message);
       res.status(500).json({ message: 'Server error', error: err.message });
     }
   };
@@ -174,14 +171,14 @@ exports.getTopLiked = async (req, res) => {
   try {
     console.log('🔍 [ADMIN] Fetching top liked blogs');
 
-    const blogs = await Blog.find({ isPublished: true }) // Optional: only show published ones
+    const blogs = await Blog.find({ isPublished: true }) 
       .sort({ likes: -1 })
       .limit(5);
 
-    console.log('✅ Top liked blogs found:', blogs.length);
+    console.log('Top liked blogs found:', blogs.length);
     res.status(200).json(blogs);
   } catch (err) {
-    console.error('🔥 Error in getTopLiked:', err.message);
+    console.error('Error in getTopLiked:', err.message);
     res.status(500).json({
       message: 'Failed to get top liked blogs',
       error: err.message,

@@ -26,7 +26,7 @@ router.post(
   '/',
   auth,
   role('admin'),
-  upload.single('image'), // 'image' is the form field name
+  upload.single('image'),
   blogController.create
 );
 
