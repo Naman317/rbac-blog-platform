@@ -13,7 +13,8 @@ bookmark that blog
 - React Router DOM
 - Tailwind CSS
 - Axios
-  ----Backend----
+-
+- Backend----
   -Node.js
 - Express.js
 - MongoDB + Mongoose
